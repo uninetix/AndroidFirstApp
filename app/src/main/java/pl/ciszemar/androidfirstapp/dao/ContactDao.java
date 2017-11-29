@@ -2,7 +2,7 @@ package pl.ciszemar.androidfirstapp.dao;
 
 import java.util.List;
 
-import pl.ciszemar.androidfirstapp.model.Contact;
+import pl.ciszemar.androidfirstapp.entity.Contact;
 
 /**
  * Created by uninetix on 23.11.17.

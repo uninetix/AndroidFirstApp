@@ -1,19 +1,19 @@
-package pl.ciszemar.androidfirstapp.service;
+package pl.ciszemar.androidfirstapp.domain;
 
 import java.util.List;
 
 import pl.ciszemar.androidfirstapp.dao.ContactDao;
-import pl.ciszemar.androidfirstapp.model.Contact;
+import pl.ciszemar.androidfirstapp.entity.Contact;
 
 /**
  * Created by uninetix on 23.11.17.
  */
 
-public class ContactServiceImpl implements ContactService {
+public class ContactDomainImpl implements ContactDomain {
 
     private ContactDao contactDao;
 
-    public ContactServiceImpl(ContactDao contactDao) {
+    public ContactDomainImpl(ContactDao contactDao) {
         this.contactDao = contactDao;
     }
 

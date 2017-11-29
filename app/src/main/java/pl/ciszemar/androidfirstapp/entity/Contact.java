@@ -1,4 +1,4 @@
-package pl.ciszemar.androidfirstapp.model;
+package pl.ciszemar.androidfirstapp.entity;
 
 /**
  * Created by uninetix on 23.11.17.
@@ -71,5 +71,34 @@ public class Contact {
                 ", email='" + email + '\'' +
                 ", favorite=" + favorite +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        if (id != contact.id) return false;
+        if (favorite != contact.favorite) return false;
+        if (firstName != null ? !firstName.equals(contact.firstName) : contact.firstName != null)
+            return false;
+        if (lastName != null ? !lastName.equals(contact.lastName) : contact.lastName != null)
+            return false;
+        if (phoneNumber != null ? !phoneNumber.equals(contact.phoneNumber) : contact.phoneNumber != null)
+            return false;
+        return email != null ? email.equals(contact.email) : contact.email == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (favorite ? 1 : 0);
+        return result;
     }
 }

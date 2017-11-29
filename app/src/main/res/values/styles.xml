@@ -8,4 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Header">
+        <item name="android:textAppearance">
+            @style/TextAppearance.AppCompat.Headline
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <!-- <style name="Header.Large"> to to samo co
+         <style name="Large" parent="Header">  -->
+    <style name="Header.Large">
+        <item name="android:textSize">
+            48sp
+        </item>
+    </style>
+
+    <style name="Subheader">
+        <item name="android:textAppearance">
+            @style/TextAppearance.AppCompat.Subhead
+        </item>
+    </style>
+
 </resources>

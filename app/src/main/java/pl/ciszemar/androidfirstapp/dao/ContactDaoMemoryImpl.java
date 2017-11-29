@@ -1,11 +1,9 @@
 package pl.ciszemar.androidfirstapp.dao;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.ciszemar.androidfirstapp.model.Contact;
+import pl.ciszemar.androidfirstapp.entity.Contact;
 
 /**
  * Created by uninetix on 23.11.17.
