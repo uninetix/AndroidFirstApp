@@ -13,15 +13,7 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
-        android:id="@+id/firstName"
-        style="@style/Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zadanie 1"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/lastName"
+        android:id="@+id/name"
         style="@style/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

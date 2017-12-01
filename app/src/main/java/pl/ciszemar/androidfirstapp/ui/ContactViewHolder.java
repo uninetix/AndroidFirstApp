@@ -16,15 +16,13 @@ class ContactViewHolder extends RecyclerView.ViewHolder {
     private View view;
     private Contact contact;
 
-    private TextView firstName;
-    private TextView lastName;
+    private TextView name;
     private TextView phoneNumber;
     private TextView email;
 
     public ContactViewHolder(View itemTask) {
         super(itemTask);
-        firstName = itemTask.findViewById(R.id.firstName);
-        lastName = itemTask.findViewById(R.id.lastName);
+        name = itemTask.findViewById(R.id.name);
         phoneNumber = itemTask.findViewById(R.id.phoneNumber);
         email = itemTask.findViewById(R.id.email);
     }
@@ -32,8 +30,7 @@ class ContactViewHolder extends RecyclerView.ViewHolder {
     public void setContact(Contact contact) {
         this.contact = contact;
 
-        firstName.setText(contact.getFirstName());
-        lastName.setText(contact.getLastName());
+        name.setText(contact.getFirstName() + " " + contact.getLastName());
         phoneNumber.setText(contact.getPhoneNumber());
         email.setText(contact.getEmail());
     }
