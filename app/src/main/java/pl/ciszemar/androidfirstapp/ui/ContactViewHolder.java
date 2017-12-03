@@ -13,7 +13,6 @@ import pl.ciszemar.androidfirstapp.entity.Contact;
 
 class ContactViewHolder extends RecyclerView.ViewHolder {
 
-    private View view;
     private Contact contact;
 
     private TextView name;
