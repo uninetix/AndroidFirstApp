@@ -1,5 +1,6 @@
 package pl.ciszemar.androidfirstapp;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import pl.ciszemar.androidfirstapp.ui.ContactAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private ContactDomain contactDomain;
+    private SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recycler = findViewById(R.id.list);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        prefs = getSharedPreferences("pl.ciszemar.androidfirstapp", MODE_PRIVATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(prefs.getBoolean("firstrun", true)){
+            Toast.makeText(this, "Pierwsze uruchomienie", Toast.LENGTH_LONG).show();
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
     }
 
     @Override
