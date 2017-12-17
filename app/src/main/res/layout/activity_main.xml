@@ -22,7 +22,7 @@
         android:layout_marginLeft="@dimen/margin_general"
         android:layout_marginRight="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_general"
-        android:text="Lista kontaktóœ"/>
+        android:text="Lista zadañ"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"

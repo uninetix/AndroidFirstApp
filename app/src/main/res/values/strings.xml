@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">AndroidFirstApp</string>
     <string name="about">O aplikacji</string>
+    <string name="newTask">Nowe zadanie</string>
+    <string name="theme">Temat</string>
+    <string name="themeHint">Wpisz temat zadania</string>
+    <string name="details">Szczegóøy</string>
+    <string name="detailsHint">Szczegóøy zadania</string>
+    <string name="remaindDate">Data wykonania zadania</string>
+    <string name="remaindDateHint">Podaj daté wykonania zadania</string>
+    <string name="status">Status zadania</string>
 </resources>

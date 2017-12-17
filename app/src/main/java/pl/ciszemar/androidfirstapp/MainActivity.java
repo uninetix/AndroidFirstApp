@@ -1,5 +1,6 @@
 package pl.ciszemar.androidfirstapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.info) {
             Toast.makeText(this, "Pierwsza aplikacja dla systemu Andriod.", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (item.getItemId() == R.id.newTask) {
+            Intent intent = new Intent(this, NewTaskActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
