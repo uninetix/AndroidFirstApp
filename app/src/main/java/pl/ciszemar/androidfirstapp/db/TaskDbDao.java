@@ -6,17 +6,16 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import pl.ciszemar.androidfirstapp.entity.Contact;
+import pl.ciszemar.androidfirstapp.entity.Task;
 
 /**
  * Created by Rodzice on 17.12.2017.
  */
 @Dao
-public interface ContactDbDao {
-
-    @Query("SELECT * FROM contacts")
-    List<Contact> getAll();
+public interface TaskDbDao {
+    @Query("SELECT * FROM tasks")
+    List<Task> getAll();
 
     @Insert
-    void insert(Contact contact);
+    void insert(Task task);
 }

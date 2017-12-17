@@ -1,16 +1,26 @@
 package pl.ciszemar.androidfirstapp.entity;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by Rodzice on 08.12.2017.
  */
-
+@Entity(tableName = "tasks")
 public class Task {
-
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private int id;
+    @ColumnInfo(name = "theme")
     private String theme;
+    @ColumnInfo(name = "details")
     private String details;
+    @ColumnInfo(name = "priorityId")
     private int priorityId;
+    @ColumnInfo(name = "statusId")
     private int statusId;
+    @ColumnInfo(name = "remaindDate")
     private String remaindDate;
 
     public int getId() {

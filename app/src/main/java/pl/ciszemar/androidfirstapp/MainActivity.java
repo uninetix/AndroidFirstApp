@@ -17,15 +17,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import pl.ciszemar.androidfirstapp.dao.ContactRepository;
-import pl.ciszemar.androidfirstapp.entity.Contact;
-import pl.ciszemar.androidfirstapp.ui.ContactAdapter;
+import pl.ciszemar.androidfirstapp.dao.TaskRepository;
+import pl.ciszemar.androidfirstapp.entity.Task;
+import pl.ciszemar.androidfirstapp.ui.TaskAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences prefs = null;
-    private ContactRepository contactRepository = new ContactRepository();
-    List<Contact> contacts = Collections.EMPTY_LIST;
+    private TaskRepository taskRepository = new TaskRepository();
+    List<Task> tasks = Collections.EMPTY_LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +35,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         try {
-            new ListContactAsync().execute().get();
+            new ListTaskAsync().execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.d("onCreate()", String.valueOf(contacts.size()));
-        ContactAdapter adapter = new ContactAdapter();
-        adapter.setData(contacts);
+
+        Log.d("onCreate()", String.valueOf(tasks.size()));
+        TaskAdapter adapter = new TaskAdapter();
+        adapter.setData(tasks);
         RecyclerView recycler = findViewById(R.id.list);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
@@ -56,13 +57,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (prefs.getBoolean("firstrun", true)) {
             Toast.makeText(this, "Pierwsze uruchomienie", Toast.LENGTH_LONG).show();
-            Contact contact = new Contact();
-            contact.setId(1);
-            contact.setFirstName("Jan");
-            contact.setLastName("Kowalski");
-            contact.setEmail("jan.kowalski@gmail.com");
-            contact.setPhoneNumber("71345678987");
-            new NewContactAsync(contact).execute();
+            Task task = new Task();
+            task.setId(1);
+            task.setTheme("Temat");
+            task.setDetails("Szczegóły");
+            task.setStatusId(1);
+            task.setPriorityId(1);
+            task.setRemaindDate("2017-12-17");
+            new NewTaskAsync(task).execute();
             prefs.edit().putBoolean("firstrun", false).commit();
         }
     }
@@ -83,26 +85,26 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class ListContactAsync extends AsyncTask<Void, Void, List<Contact>> {
+    private class ListTaskAsync extends AsyncTask<Void, Void, List<Task>> {
 
         @Override
-        protected List<Contact> doInBackground(Void... voids) {
-            contacts = contactRepository.getAll();
-            return contacts;
+        protected List<Task> doInBackground(Void... voids) {
+            tasks = taskRepository.getAll();
+            return tasks;
         }
     }
 
-    private class NewContactAsync extends AsyncTask<Void, Void, Void> {
+    private class NewTaskAsync extends AsyncTask<Void, Void, Void> {
 
-        private Contact contact;
+        private Task task;
 
-        public NewContactAsync(Contact contact) {
-            this.contact = contact;
+        public NewTaskAsync(Task task) {
+            this.task = task;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            contactRepository.insert(contact);
+            taskRepository.insert(task);
             return null;
         }
     }

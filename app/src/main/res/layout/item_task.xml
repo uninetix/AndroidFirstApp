@@ -13,7 +13,7 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/theme"
         style="@style/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,17 +21,32 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/phoneNumber"
+        android:id="@+id/details"
         style="@style/Subheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kup składniki na obiad"/>
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/priorityId"
         style="@style/Subheader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kup składniki na obiad"/>
+
+    <TextView
+        android:id="@+id/statusId"
+        style="@style/Subheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kup składniki na obiad"/>
+
+    <TextView
+        android:id="@+id/remaindDate"
+        style="@style/Subheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kup składniki na obiad"/>
+
 
 </LinearLayout>
