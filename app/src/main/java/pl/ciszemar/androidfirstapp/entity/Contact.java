@@ -1,16 +1,29 @@
 package pl.ciszemar.androidfirstapp.entity;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.v4.widget.CircularProgressDrawable;
+
 /**
  * Created by uninetix on 23.11.17.
  */
 
+@Entity(tableName = "contacts")
 public class Contact {
 
+    @PrimaryKey
+    @ColumnInfo(name="contactid")
     private int id;
+    @ColumnInfo(name = "firstname")
     private String firstName;
+    @ColumnInfo(name = "lastname")
     private String lastName;
+    @ColumnInfo(name = "phonenumber")
     private String phoneNumber;
+    @ColumnInfo(name = "email")
     private String email;
+    @ColumnInfo(name = "favorite")
     private boolean favorite;
 
     public int getId() {
