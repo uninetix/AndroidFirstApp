@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidFirstApp</string>
+    <string name="app_name">Pierwsza aplikacja</string>
     <string name="about">O aplikacji</string>
     <string name="newTask">Nowe zadanie</string>
     <string name="theme">Temat</string>
