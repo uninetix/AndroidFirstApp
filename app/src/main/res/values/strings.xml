@@ -9,4 +9,14 @@
     <string name="remaindDate">Data wykonania zadania</string>
     <string name="remaindDateHint">Podaj daté wykonania zadania</string>
     <string name="status">Status zadania</string>
+    <string-array name="status">
+        <item>Nowe</item>
+        <item>Wykonywane</item>
+        <item>Zakończone</item>
+    </string-array>
+    <string-array name="priority">
+        <item>Niski</item>
+        <item>Średni</item>
+        <item>Wysoki</item>
+    </string-array>
 </resources>
