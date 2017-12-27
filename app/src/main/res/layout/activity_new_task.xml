@@ -62,6 +62,18 @@
         style="@style/Subheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/priority"/>
+
+    <Spinner
+        android:id="@+id/priorityId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        style="@style/Subheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/remaindDate"/>
 
     <EditText

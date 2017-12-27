@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,30 +25,15 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences prefs = null;
     private TaskRepository taskRepository = new TaskRepository();
+    private TaskAdapter adapter;
     List<Task> tasks = Collections.EMPTY_LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        try {
-            new ListTaskAsync().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("onCreate()", String.valueOf(tasks.size()));
-        TaskAdapter adapter = new TaskAdapter();
-        adapter.setData(tasks);
-        RecyclerView recycler = findViewById(R.id.list);
-        recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-
         prefs = getSharedPreferences("pl.ciszemar.androidfirstapp", MODE_PRIVATE);
     }
 
@@ -68,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
             new NewTaskAsync(task).execute();
             prefs.edit().putBoolean("firstrun", false).commit();
         }
+        try {
+            new ListTaskAsync().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        adapter = new TaskAdapter();
+        adapter.setData(tasks);
+        RecyclerView recycler = findViewById(R.id.list);
+        recycler.setAdapter(adapter);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override

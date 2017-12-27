@@ -1,25 +1,31 @@
 package pl.ciszemar.androidfirstapp;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import pl.ciszemar.androidfirstapp.dao.TaskRepository;
 import pl.ciszemar.androidfirstapp.entity.Task;
 
 
 public class NewTaskActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Task task;
-    Spinner statusSpinner;
+    private Task task;
+    private Spinner statusSpinner, prioritySpinner;
+    private Button submit;
+
+    private TaskRepository taskRepository = new TaskRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +35,35 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        submit = findViewById(R.id.add_task_button);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                task.setTheme(((EditText) findViewById(R.id.theme)).getText().toString());
+                task.setDetails(((EditText) findViewById(R.id.details)).getText().toString());
+                new NewTaskActivity.NewTaskAsync(task).execute();
+                onBackPressed();
+            }
+        });
         task = new Task();
         task.setStatusId(0);
         task.setPriorityId(0);
-        statusSpinner = (Spinner) findViewById(R.id.statusId);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
-        statusSpinner.setAdapter(adapter);
+
+        statusSpinner = findViewById(R.id.statusId);
+        ArrayAdapter statusAdapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
+        statusSpinner.setAdapter(statusAdapter);
         statusSpinner.setOnItemSelectedListener(this);
+
+        prioritySpinner = findViewById(R.id.priorityId);
+        ArrayAdapter priorityAdapter = ArrayAdapter.createFromResource(this, R.array.priority, android.R.layout.simple_spinner_item);
+        prioritySpinner.setAdapter(priorityAdapter);
+        prioritySpinner.setOnItemSelectedListener(this);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -50,14 +72,33 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         TextView item = (TextView) view;
-        Log.d("NewTaskAvtivity", "Wybrałeś: " + item.getText() + " i=" + i + " l=" + l);
-        Log.d("NewTaskAvtivity", "AdapterView: " + adapterView.getId());
-        Toast.makeText(this, "Wybrałeś: " + item.getId() + " i=" + i + " l=" + l, Toast.LENGTH_LONG).show();
-        task.setStatusId(item.getId());
+        switch (adapterView.getId()) {
+            case R.id.statusId:
+                task.setStatusId(i);
+                break;
+            case R.id.priorityId:
+                task.setPriorityId(i);
+                break;
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private class NewTaskAsync extends AsyncTask<Void, Void, Void> {
+
+        private Task task;
+
+        public NewTaskAsync(Task task) {
+            this.task = task;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            taskRepository.insert(task);
+            return null;
+        }
     }
 }
