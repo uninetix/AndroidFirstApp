@@ -1,5 +1,6 @@
 package pl.ciszemar.androidfirstapp.ui;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,13 @@ import pl.ciszemar.androidfirstapp.entity.Task;
 public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder>{
 
     List<Task> data = Collections.emptyList();
+    private Context context;
 
     public TaskAdapter() {
+    }
+
+    public TaskAdapter(Context context) {
+        this.context = context;
     }
 
     public void setData(List<Task> data) {
@@ -35,7 +41,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder>{
                 viewGroup,
                 false
         );
-        return new TaskViewHolder(view);
+        return new TaskViewHolder(view, context);
     }
 
     @Override

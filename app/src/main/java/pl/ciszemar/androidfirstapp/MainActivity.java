@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        adapter = new TaskAdapter();
+        adapter = new TaskAdapter(this);
         adapter.setData(tasks);
         RecyclerView recycler = findViewById(R.id.list);
         recycler.setAdapter(adapter);
