@@ -1,14 +1,11 @@
 package pl.ciszemar.androidfirstapp.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import pl.ciszemar.androidfirstapp.App;
-import pl.ciszemar.androidfirstapp.MainActivity;
 import pl.ciszemar.androidfirstapp.R;
 import pl.ciszemar.androidfirstapp.entity.Task;
 
@@ -27,7 +24,6 @@ class TaskViewHolder extends RecyclerView.ViewHolder {
     private TextView remaindDate;
 
     private Context context;
-    private ArrayAdapter statusAdapter;
 
     public TaskViewHolder(View itemTask, Context context) {
         super(itemTask);
@@ -45,8 +41,8 @@ class TaskViewHolder extends RecyclerView.ViewHolder {
         String[] priorityList = context.getResources().getStringArray(R.array.priority);
         theme.setText(task.getTheme());
         details.setText(task.getDetails());
-        priorityId.setText(priorityList[task.getPriorityId()]);
-        statusId.setText(statusList[task.getStatusId()]);
+        priorityId.setText(Html.fromHtml("Priorytet: <strong>" + priorityList[task.getPriorityId()] + "</strong>"));
+        statusId.setText(Html.fromHtml("Status: <strong>" + statusList[task.getStatusId()] + "</strong>"));
         remaindDate.setText(task.getRemaindDate());
     }
 
