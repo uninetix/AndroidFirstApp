@@ -24,4 +24,8 @@ public class TaskRepository {
     public void insert(Task task){
         taskDbDao.insert(task);
     }
+
+    public void update(Task task) {
+        taskDbDao.update(task);
+    }
 }

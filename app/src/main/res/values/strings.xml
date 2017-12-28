@@ -10,6 +10,9 @@
     <string name="remaindDateHint">Podaj daté wykonania zadania</string>
     <string name="status">Status zadania</string>
     <string name="priority">Priorytet</string>
+    <string name="editTask">Edycja zadania</string>
+    <string name="editTaskBtn">Zapisz</string>
+    <string name="newTaskBtn">Dodaj</string>
     <string-array name="status">
         <item>Nowe</item>
         <item>Wykonywane</item>

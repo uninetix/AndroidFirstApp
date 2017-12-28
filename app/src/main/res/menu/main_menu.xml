@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/newTask"
-        android:title="@string/newTask"/>
-    <item android:id="@+id/info"
-        android:title="@string/about"/>
+    <item
+        android:id="@+id/newTask"
+        android:title="@string/newTask" />
+    <item
+        android:id="@+id/editTask"
+        android:title="@string/editTask" />
+    <item
+        android:id="@+id/info"
+        android:title="@string/about" />
 
 </menu>
