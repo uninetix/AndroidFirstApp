@@ -15,6 +15,12 @@ import pl.ciszemar.androidfirstapp.entity.Task;
 
 class TaskViewHolder extends RecyclerView.ViewHolder {
 
+    public interface OnTaskInteraction {
+        void onTaskClicked(int position);
+
+        void onTaskLongClicked(int position);
+    }
+
     private Task task;
 
     private TextView theme;
@@ -25,7 +31,7 @@ class TaskViewHolder extends RecyclerView.ViewHolder {
 
     private Context context;
 
-    public TaskViewHolder(View itemTask, Context context) {
+    public TaskViewHolder(View itemTask, Context context, final OnTaskInteraction listener) {
         super(itemTask);
         this.context = context;
         theme = itemTask.findViewById(R.id.theme);
@@ -33,6 +39,26 @@ class TaskViewHolder extends RecyclerView.ViewHolder {
         priorityId = itemTask.findViewById(R.id.statusId);
         statusId = itemTask.findViewById(R.id.priorityId);
         remaindDate = itemTask.findViewById(R.id.remaindDate);
+
+        itemTask.setOnClickListener(
+                (v) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onTaskClicked(position);
+                    }
+                }
+        );
+
+        itemTask.setOnLongClickListener(
+                (v) -> {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onTaskLongClicked(position);
+                        itemTask.setSelected(true);
+                    }
+                    return false;
+                }
+        );
     }
 
     public void setTask(Task task) {

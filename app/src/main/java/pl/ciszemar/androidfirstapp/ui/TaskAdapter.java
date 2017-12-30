@@ -18,14 +18,37 @@ import pl.ciszemar.androidfirstapp.entity.Task;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder>{
 
-    List<Task> data = Collections.emptyList();
-    private Context context;
+    public interface OnTaskInteractionListener {
+        void onTaskClicked(Task task);
 
-    public TaskAdapter() {
+        void onTaskLongClicked(Task task);
     }
 
-    public TaskAdapter(Context context) {
+    List<Task> data = Collections.emptyList();
+    private Context context;
+    private OnTaskInteractionListener taskListener;
+
+    private TaskViewHolder.OnTaskInteraction listener = new TaskViewHolder.OnTaskInteraction() {
+        @Override
+        public void onTaskClicked(int position) {
+            Task task = data.get(position);
+            if (taskListener != null) {
+                taskListener.onTaskClicked(task);
+            }
+        }
+
+        @Override
+        public void onTaskLongClicked(int position) {
+            Task task = data.get(position);
+            if (taskListener != null) {
+                taskListener.onTaskLongClicked(task);
+            }
+        }
+    };
+
+    public TaskAdapter(Context context, OnTaskInteractionListener taskListener) {
         this.context = context;
+        this.taskListener = taskListener;
     }
 
     public void setData(List<Task> data) {
@@ -41,7 +64,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder>{
                 viewGroup,
                 false
         );
-        return new TaskViewHolder(view, context);
+        return new TaskViewHolder(view, context, listener);
     }
 
     @Override

@@ -60,7 +60,18 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        adapter = new TaskAdapter(this);
+        adapter = new TaskAdapter(this, new TaskAdapter.OnTaskInteractionListener() {
+
+            @Override
+            public void onTaskClicked(Task task) {
+                Toast.makeText(MainActivity.this, task.getTheme(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTaskLongClicked(Task task) {
+                Toast.makeText(MainActivity.this, task.getDetails(), Toast.LENGTH_SHORT).show();
+            }
+        });
         adapter.setData(tasks);
         RecyclerView recycler = findViewById(R.id.list);
         recycler.setAdapter(adapter);
