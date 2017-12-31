@@ -4,11 +4,16 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Created by Rodzice on 08.12.2017.
  */
 @Entity(tableName = "tasks")
-public class Task {
+public class Task implements Serializable {
+
+    private static final long serialVersionUID = 1;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;

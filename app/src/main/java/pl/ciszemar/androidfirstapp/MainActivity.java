@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs = null;
     private TaskRepository taskRepository = new TaskRepository();
     private TaskAdapter adapter;
+    private RecyclerView recycler;
+    private ActionMode actionMode;
     List<Task> tasks = Collections.EMPTY_LIST;
 
     @Override
@@ -69,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTaskLongClicked(Task task) {
-                Toast.makeText(MainActivity.this, task.getDetails(), Toast.LENGTH_SHORT).show();
+                stattActionMode(task);
             }
         });
         adapter.setData(tasks);
-        RecyclerView recycler = findViewById(R.id.list);
+        recycler = findViewById(R.id.list);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -96,12 +99,43 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-        if (item.getItemId() == R.id.editTask) {
-            Intent intent = new Intent(this, EditTaskActivity.class);
-            startActivity(intent);
-            return true;
-        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void stattActionMode(Task task) {
+        if (actionMode != null) {
+            actionMode.finish();
+        }
+        actionMode = recycler.startActionMode(
+                new ActionMode.Callback() {
+                    @Override
+                    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                        actionMode.getMenuInflater().inflate(R.menu.action_mode_menu, menu);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.editTask) {
+                            Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+                            intent.putExtra("task_item", task);
+                            startActivity(intent);
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode actionMode) {
+
+                    }
+                }
+        );
     }
 
     private class ListTaskAsync extends AsyncTask<Void, Void, List<Task>> {
