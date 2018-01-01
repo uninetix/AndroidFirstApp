@@ -22,4 +22,7 @@ public interface TaskDbDao {
 
     @Update
     void update(Task task);
+
+    @Query("SELECT * FROM tasks WHERE statusId = :statusId")
+    List<Task> getByStatus(int statusId);
 }

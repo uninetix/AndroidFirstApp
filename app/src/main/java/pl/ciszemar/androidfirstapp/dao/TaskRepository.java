@@ -21,6 +21,10 @@ public class TaskRepository {
         return taskDbDao.getAll();
     }
 
+    public List<Task> getByStatus(int statusId) {
+        return taskDbDao.getByStatus(statusId);
+    }
+
     public void insert(Task task){
         taskDbDao.insert(task);
     }

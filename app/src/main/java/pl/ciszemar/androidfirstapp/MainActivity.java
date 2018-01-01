@@ -24,6 +24,9 @@ import pl.ciszemar.androidfirstapp.ui.TaskAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int NEW_STATUS_TASK_ID = 0;
+    private static final int ON_PROGRESS_STATUS_TASK_ID = 1;
+
     private SharedPreferences prefs = null;
     private TaskRepository taskRepository = new TaskRepository();
     private TaskAdapter adapter;
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putBoolean("firstrun", false).commit();
         }
         try {
-            new ListTaskAsync().execute().get();
+            new ListTaskAsync(NEW_STATUS_TASK_ID).execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -140,9 +143,20 @@ public class MainActivity extends AppCompatActivity {
 
     private class ListTaskAsync extends AsyncTask<Void, Void, List<Task>> {
 
+        private int statusId;
+
+        public ListTaskAsync(int statusId) {
+            this.statusId = statusId;
+        }
+
         @Override
         protected List<Task> doInBackground(Void... voids) {
             tasks = taskRepository.getAll();
+            //TODO zawężanie listy zadań tylko do wybranych statusów
+            /*List<Task> tempList = taskRepository.getByStatus(statusId);
+            for (Task item : tempList){
+                tasks.add(item);
+            }*/
             return tasks;
         }
     }

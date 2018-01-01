@@ -55,6 +55,8 @@ class TaskViewHolder extends RecyclerView.ViewHolder {
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onTaskLongClicked(position);
                         itemTask.setSelected(true);
+                        //TODO zablokować możliwość zaznaczania więcej niż jednego zadania
+//                        Toast.makeText(context, String.valueOf(), Toast.LENGTH_SHORT).show();
                     }
                     return false;
                 }
