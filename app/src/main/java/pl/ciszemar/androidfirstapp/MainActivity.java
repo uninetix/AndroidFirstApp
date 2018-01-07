@@ -14,7 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter;
     private RecyclerView recycler;
     private ActionMode actionMode;
-    List<Task> tasks = Collections.EMPTY_LIST;
+    ArrayList<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        tasks = new ArrayList<>();
         if (prefs.getBoolean("firstrun", true)) {
             Toast.makeText(this, "Pierwsze uruchomienie", Toast.LENGTH_LONG).show();
             Task task = new Task();
@@ -58,13 +59,9 @@ public class MainActivity extends AppCompatActivity {
             new NewTaskAsync(task).execute();
             prefs.edit().putBoolean("firstrun", false).commit();
         }
-        try {
-            new ListTaskAsync(NEW_STATUS_TASK_ID).execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
+        getTasksByStatusId(NEW_STATUS_TASK_ID);
+        getTasksByStatusId(ON_PROGRESS_STATUS_TASK_ID);
 
         adapter = new TaskAdapter(this, new TaskAdapter.OnTaskInteractionListener() {
 
@@ -93,15 +90,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.info) {
-            Toast.makeText(this, "Pierwsza aplikacja dla systemu Andriod.", Toast.LENGTH_SHORT).show();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.info: {
+                Toast.makeText(this, "Pierwsza aplikacja dla systemu Andriod.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            case R.id.newTask: {
+                Intent intent = new Intent(this, NewTaskActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.listClosedTask: {
+                Intent intent = new Intent(this, ClosedTasksActivity.class);
+                startActivity(intent);
+                return true;
+            }
         }
-        if (item.getItemId() == R.id.newTask) {
-            Intent intent = new Intent(this, NewTaskActivity.class);
-            startActivity(intent);
-            return true;
-        }
+//
+//        if (item.getItemId() == R.id.info) {
+//            Toast.makeText(this, "Pierwsza aplikacja dla systemu Andriod.", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        if (item.getItemId() == R.id.newTask) {
+//            Intent intent = new Intent(this, NewTaskActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -141,6 +155,16 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void getTasksByStatusId(int newStatusTaskId) {
+        try {
+            new ListTaskAsync(newStatusTaskId).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class ListTaskAsync extends AsyncTask<Void, Void, List<Task>> {
 
         private int statusId;
@@ -151,12 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<Task> doInBackground(Void... voids) {
-            tasks = taskRepository.getAll();
-            //TODO zawężanie listy zadań tylko do wybranych statusów
-            /*List<Task> tempList = taskRepository.getByStatus(statusId);
-            for (Task item : tempList){
+            ArrayList<Task> tempList = (ArrayList<Task>) taskRepository.getByStatus(statusId);
+            for (Task item : tempList) {
                 tasks.add(item);
-            }*/
+            }
             return tasks;
         }
     }

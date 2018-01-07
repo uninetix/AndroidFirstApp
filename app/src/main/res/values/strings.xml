@@ -13,6 +13,7 @@
     <string name="editTask">Edycja zadania</string>
     <string name="editTaskBtn">Zapisz</string>
     <string name="newTaskBtn">Dodaj</string>
+    <string name="listClosedTask">Zadania zamknięte</string>
     <string-array name="status">
         <item>Nowe</item>
         <item>Wykonywane</item>

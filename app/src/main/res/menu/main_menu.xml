@@ -5,6 +5,9 @@
         android:id="@+id/newTask"
         android:title="@string/newTask" />
     <item
+        android:id="@+id/listClosedTask"
+        android:title="@string/listClosedTask" />
+    <item
         android:id="@+id/info"
         android:title="@string/about" />
 
