@@ -76,6 +76,8 @@
         android:id="@+id/remaindDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:editable="false"
         android:hint="@string/remaindDateHint" />
 
     <Button

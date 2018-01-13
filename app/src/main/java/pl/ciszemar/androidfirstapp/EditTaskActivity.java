@@ -1,5 +1,6 @@
 package pl.ciszemar.androidfirstapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import pl.ciszemar.androidfirstapp.dao.TaskRepository;
 import pl.ciszemar.androidfirstapp.entity.Task;
 
@@ -23,6 +27,7 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
     private EditText themeET, detailsET, remaindDateET;
     private Spinner prioritySpinner, statusSpinner;
     private Button saveBtn;
+    Calendar myCalendar = Calendar.getInstance();
 
     private TaskRepository taskRepository = new TaskRepository();
 
@@ -69,6 +74,18 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
                 onBackPressed();
             }
         });
+
+        DatePickerDialog.OnDateSetListener date = (datePicker, year, monthofYear, dayOfMounth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthofYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMounth);
+            updateLabel();
+        };
+
+        remaindDateET.setOnFocusChangeListener((view, b) -> new DatePickerDialog(EditTaskActivity.this, date,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
     }
 
     @Override
@@ -95,6 +112,12 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void updateLabel() {
+        String myFormatDate = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate);
+        remaindDateET.setText(sdf.format(myCalendar.getTime()));
     }
 
     private class EditTaskAsync extends AsyncTask<Void, Void, Void> {

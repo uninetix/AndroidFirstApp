@@ -1,5 +1,6 @@
 package pl.ciszemar.androidfirstapp;
 
+import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import pl.ciszemar.androidfirstapp.dao.TaskRepository;
 import pl.ciszemar.androidfirstapp.entity.Task;
 
@@ -22,6 +26,8 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
     private Task task;
     private Spinner statusSpinner, prioritySpinner;
     private Button submit;
+    EditText remaindDate;
+    Calendar myCalendar = Calendar.getInstance();
 
     private TaskRepository taskRepository = new TaskRepository();
 
@@ -29,19 +35,17 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         submit = findViewById(R.id.add_task_button);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                task.setTheme(((EditText) findViewById(R.id.theme)).getText().toString());
-                task.setDetails(((EditText) findViewById(R.id.details)).getText().toString());
-                new NewTaskActivity.NewTaskAsync(task).execute();
-                onBackPressed();
-            }
+        submit.setOnClickListener(view -> {
+            task.setTheme(((EditText) findViewById(R.id.theme)).getText().toString());
+            task.setDetails(((EditText) findViewById(R.id.details)).getText().toString());
+            task.setRemaindDate(((EditText) findViewById(R.id.remaindDate)).getText().toString());
+            new NewTaskAsync(task).execute();
+            onBackPressed();
         });
         task = new Task();
         task.setStatusId(0);
@@ -57,6 +61,18 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
         prioritySpinner.setAdapter(priorityAdapter);
         prioritySpinner.setOnItemSelectedListener(this);
 
+        remaindDate = findViewById(R.id.remaindDate);
+        DatePickerDialog.OnDateSetListener date = (datePicker, year, monthofYear, dayOfMounth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthofYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMounth);
+            updateLabel();
+        };
+
+        remaindDate.setOnFocusChangeListener((view, b) -> new DatePickerDialog(NewTaskActivity.this, date,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
     }
 
     @Override
@@ -78,6 +94,13 @@ public class NewTaskActivity extends AppCompatActivity implements AdapterView.On
                 task.setPriorityId(i);
                 break;
         }
+    }
+
+
+    private void updateLabel() {
+        String myFormatDate = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate);
+        remaindDate.setText(sdf.format(myCalendar.getTime()));
     }
 
     @Override
