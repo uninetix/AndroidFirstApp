@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -28,6 +28,8 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
     private Spinner prioritySpinner, statusSpinner;
     private Button saveBtn;
     Calendar myCalendar = Calendar.getInstance();
+    String myFormatDate = "yyyy-MM-dd";
+    SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate);
 
     private TaskRepository taskRepository = new TaskRepository();
 
@@ -69,7 +71,12 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
             public void onClick(View view) {
                 task.setTheme(themeET.getText().toString());
                 task.setDetails(detailsET.getText().toString());
-                task.setRemaindDate(remaindDateET.getText().toString());
+                try {
+                    myCalendar.setTime(sdf.parse(remaindDateET.getText().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                task.setRemaindDate(myCalendar.getTime().toString());
                 new EditTaskActivity.EditTaskAsync().execute();
                 onBackPressed();
             }
@@ -82,10 +89,13 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
             updateLabel();
         };
 
-        remaindDateET.setOnFocusChangeListener((view, b) -> new DatePickerDialog(EditTaskActivity.this, date,
-                myCalendar.get(Calendar.YEAR),
-                myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
+        remaindDateET.setOnFocusChangeListener((view, b) -> {
+            String[] dateElements = task.getRemaindDate().split("-");
+            new DatePickerDialog(EditTaskActivity.this, date,
+                    Integer.parseInt(dateElements[0]),
+                    Integer.parseInt(dateElements[1]) - 1,
+                    Integer.parseInt(dateElements[2])).show();
+        });
     }
 
     @Override
@@ -98,7 +108,6 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        TextView item = (TextView) view;
         switch (adapterView.getId()) {
             case R.id.statusId:
                 task.setStatusId(i);
@@ -115,8 +124,6 @@ public class EditTaskActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void updateLabel() {
-        String myFormatDate = "yyyy-MM-dd";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormatDate);
         remaindDateET.setText(sdf.format(myCalendar.getTime()));
     }
 
